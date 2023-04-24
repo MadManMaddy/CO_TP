@@ -5,8 +5,9 @@ using UnityEngine;
 public class ZengaBlock : MonoBehaviour
 {
     public Stack stack;
+    UIMediatorService uiMediatorService => UIMediatorService.Instance;
 
-    public void InitializeZengaBlock(Stack stack,int positionalId)
+    public void InitializeZengaBlock(Stack stack, int positionalId)
     {
         this.stack = stack;
         var myMaterial = GlobalContext.Instance.GetMaterialByStackMastery(stack.mastery);
@@ -18,4 +19,8 @@ public class ZengaBlock : MonoBehaviour
         GetComponent<Renderer>().material = material;
     }
 
+    private void OnMouseDown()
+    {
+        uiMediatorService.OnStackClicked(stack);
+    }
 }
