@@ -22,7 +22,7 @@ public class UIMediatorService : Singleton<UIMediatorService>
 
     void OnZengaBlocksRefreshed()
     {
-        for (int i=0;i<zengaBlocksManagerService.zengaParentBlocks.Count;i++)
+        for (int i = 0; i < zengaBlocksManagerService.zengaParentBlocks.Count; i++)
         {
             var gradeButton = Instantiate(gradeButtonPrefab, gradeButtonParent);
             gradeButton.GetComponent<GradeButton>().Initialize(i);
@@ -32,7 +32,11 @@ public class UIMediatorService : Singleton<UIMediatorService>
     public void OnGradeSelect(int grade)
     {
         cineCameraManagerService.SwitchCameraLookat(
-            ZengaBlocksManagerService.Instance.zengaParentBlocks[grade]
+            zengaBlocksManagerService.zengaParentBlocks[grade]
+        );
+
+        cineCameraManagerService.SetFreeLookCameraTargetOffset(
+            zengaBlocksManagerService.zengaParentBlocks[grade].transform.childCount / 3
         );
     }
 }

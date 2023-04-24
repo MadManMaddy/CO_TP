@@ -23,11 +23,20 @@ public class CineCameraManagerService : Singleton<CineCameraManagerService>
     void OnZengaBlocksRefreshed()
     {
         SwitchCameraLookat(zengaBlocksManagerService.zengaParentBlocks[0]);
+        SetFreeLookCameraTargetOffset(zengaBlocksManagerService.zengaParentBlocks[0].transform.childCount/3);
     }
 
     public void SwitchCameraLookat(GameObject target)
     {
         cineCamera.LookAt = target.transform;
         cineCamera.Follow = target.transform;
+    }
+
+    public void SetFreeLookCameraTargetOffset(int yOffset)
+    {
+        var composer = cineCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>();
+
+        composer.m_TrackedObjectOffset.y  = yOffset;
+
     }
 }
