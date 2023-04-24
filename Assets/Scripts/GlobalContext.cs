@@ -5,6 +5,7 @@ using UnityEngine;
 public class GlobalContext : Singleton<GlobalContext>
 {
     public GameObject zengaBlockPrefab;
+    public GameObject gradeNameTextPrefab;
     [SerializeField] List<ZengaMaterials> zengaMaterials = new List<ZengaMaterials>();
     public List<ZengaDefaultPosition> zengaBlockPositions = new List<ZengaDefaultPosition>()
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class ZengaBlocksManagerService : Singleton<ZengaBlocksManagerService>
 {
@@ -25,6 +26,14 @@ public class ZengaBlocksManagerService : Singleton<ZengaBlocksManagerService>
             {
                 gradeZengaBlocks.Add(grade.Key, new List<ZengaBlock>());
 
+                var gradeNameBlockPos = new Vector3(offset.x * gradesCount, offset.y, offset.z);
+                var gradeNameBlock = Instantiate(
+                    globalContext.gradeNameTextPrefab,
+                    gradeNameBlockPos,
+                    Quaternion.identity
+                );
+                gradeNameBlock.GetComponentInChildren<TMP_Text>().text = grade.Key;
+
                 var orderedStacks = grade.Value
                     .OrderBy(x => x.domain)
                     .ThenBy(y => y.cluster)
@@ -47,6 +56,7 @@ public class ZengaBlocksManagerService : Singleton<ZengaBlocksManagerService>
                         currentPos.position,
                         Quaternion.Euler(currentPos.rotation)
                     );
+                    zengaBlock.transform.SetParent(gradeNameBlock.transform);
                     var zb = zengaBlock.AddComponent<ZengaBlock>();
                     zb.InitializeZengaBlock(orderedStacks[i], i);
                     gradeZengaBlocks[grade.Key].Add(zb);
