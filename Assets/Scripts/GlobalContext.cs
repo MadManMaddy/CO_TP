@@ -14,6 +14,8 @@ public class GlobalContext : Singleton<GlobalContext>
     public Transform gradeButtonParent;
     public TMP_Text stackLogText;
     public GameObject stackLogPanel;
+    public GameObject refreshStacksButton;
+    public GameObject removeGlassStacksButton;
 
     public CinemachineFreeLook freeLookCamera;
 

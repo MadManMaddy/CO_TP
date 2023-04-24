@@ -8,11 +8,14 @@ public class UIMediatorService : Singleton<UIMediatorService>
 {
     CineCameraManagerService cineCameraManagerService => CineCameraManagerService.Instance;
     ZengaBlocksManagerService zengaBlocksManagerService => ZengaBlocksManagerService.Instance;
+    StacksFetchService stacksFetchService => StacksFetchService.Instance;
 
     GameObject gradeButtonPrefab => GlobalContext.Instance.gradeButtonPrefab;
     Transform gradeButtonParent => GlobalContext.Instance.gradeButtonParent;
     TMP_Text logStackText => GlobalContext.Instance.stackLogText;
     GameObject stackLogPanel => GlobalContext.Instance.stackLogPanel;
+    GameObject refreshStacksButton => GlobalContext.Instance.refreshStacksButton;
+    GameObject removeGlassStacksButton => GlobalContext.Instance.removeGlassStacksButton;
 
     private void Start()
     {
@@ -31,6 +34,8 @@ public class UIMediatorService : Singleton<UIMediatorService>
             var gradeButton = Instantiate(gradeButtonPrefab, gradeButtonParent);
             gradeButton.GetComponent<GradeButton>().Initialize(i);
         }
+        refreshStacksButton.SetActive(true);
+        removeGlassStacksButton.SetActive(true);
     }
 
     public void OnGradeSelect(int grade)
@@ -48,5 +53,29 @@ public class UIMediatorService : Singleton<UIMediatorService>
     {
         logStackText.text = JsonConvert.SerializeObject(stack);
         stackLogPanel.SetActive(true);
+    }
+
+    public void RefreshStacks()
+    {
+        RefreshUIButtons();
+        refreshStacksButton.SetActive(false);
+        removeGlassStacksButton.SetActive(false);
+        stacksFetchService.FetchStacks();
+    }
+
+    public void RemoveGlassStacks()
+    {
+        removeGlassStacksButton.SetActive(false);
+        zengaBlocksManagerService.RemoveGlassStacks();
+    }
+
+    void RefreshUIButtons()
+    {
+        foreach (Transform child in gradeButtonParent)
+        {
+            Destroy(child.gameObject);
+        }
+        logStackText.text = "";
+        stackLogPanel.SetActive(false);
     }
 }

@@ -79,4 +79,23 @@ public class ZengaBlocksManagerService : Singleton<ZengaBlocksManagerService>
             OnZengaBlocksRefreshed?.Invoke();
         }
     }
+
+    public void RemoveGlassStacks()
+    {
+        gradeZengaBlocks
+            .ToList()
+            .ForEach(grade =>
+            {
+                grade.Value
+                    .ToList()
+                    .ForEach(stack =>
+                    {
+                        if (stack.stack.mastery == 0)
+                        {
+                            grade.Value.Remove(stack);
+                            Destroy(stack.gameObject);
+                        }
+                    });
+            });
+    }
 }
