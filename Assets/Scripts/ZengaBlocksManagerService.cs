@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using TMPro;
+using System;
 
 public class ZengaBlocksManagerService : Singleton<ZengaBlocksManagerService>
 {
+    public Action OnZengaBlocksRefreshed;
+    public List<GameObject> zengaParentBlocks = new List<GameObject>();
     public Vector3 offset = new Vector3(10, 0, 0);
     GlobalContext globalContext => GlobalContext.Instance;
 
     public Dictionary<string, List<ZengaBlock>> gradeZengaBlocks =
         new Dictionary<string, List<ZengaBlock>>();
 
+    public string GetGradeName(int id)
+    {
+        return gradeZengaBlocks.Keys.ToList()[id];
+    }
+
     public void RefreshZengaBlocks()
     {
         gradeZengaBlocks.Clear();
+        zengaParentBlocks.ForEach(x => Destroy(x));
+        zengaParentBlocks.Clear();
 
         var stacks = StacksManagerService.Instance.gradeStacks;
 
@@ -33,6 +43,7 @@ public class ZengaBlocksManagerService : Singleton<ZengaBlocksManagerService>
                     Quaternion.identity
                 );
                 gradeNameBlock.GetComponentInChildren<TMP_Text>().text = grade.Key;
+                zengaParentBlocks.Add(gradeNameBlock);
 
                 var orderedStacks = grade.Value
                     .OrderBy(x => x.domain)
@@ -63,5 +74,9 @@ public class ZengaBlocksManagerService : Singleton<ZengaBlocksManagerService>
                 }
                 gradesCount++;
             });
+        if (gradeZengaBlocks.Count > 0 && gradeZengaBlocks.First().Value.Count > 0)
+        {
+            OnZengaBlocksRefreshed?.Invoke();
+        }
     }
 }

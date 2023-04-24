@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class GlobalContext : Singleton<GlobalContext>
 {
     public GameObject zengaBlockPrefab;
     public GameObject gradeNameTextPrefab;
+    [Header("UI references")]
+    public GameObject gradeButtonPrefab;
+    public Transform gradeButtonParent;
+    public CinemachineFreeLook freeLookCamera;
+
     [SerializeField] List<ZengaMaterials> zengaMaterials = new List<ZengaMaterials>();
     public List<ZengaDefaultPosition> zengaBlockPositions = new List<ZengaDefaultPosition>()
     {
