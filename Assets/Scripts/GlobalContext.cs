@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using TMPro;
 
 public class GlobalContext : Singleton<GlobalContext>
 {
     public GameObject zengaBlockPrefab;
     public GameObject gradeNameTextPrefab;
+
     [Header("UI references")]
     public GameObject gradeButtonPrefab;
     public Transform gradeButtonParent;
+    public TMP_Text stackLogText;
+    public GameObject stackLogPanel;
+
     public CinemachineFreeLook freeLookCamera;
 
-    [SerializeField] List<ZengaMaterials> zengaMaterials = new List<ZengaMaterials>();
+    [SerializeField]
+    List<ZengaMaterials> zengaMaterials = new List<ZengaMaterials>();
     public List<ZengaDefaultPosition> zengaBlockPositions = new List<ZengaDefaultPosition>()
     {
         new ZengaDefaultPosition()
@@ -52,7 +58,7 @@ public class GlobalContext : Singleton<GlobalContext>
         return zengaMaterials[masteryLevel].material;
     }
 
-//Test code for spawning st
+    //Test code for spawning st
     // private void Start()
     // {
     //     for (int i = 0; i < 30; i++)

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
+using TMPro;
 
 public class UIMediatorService : Singleton<UIMediatorService>
 {
@@ -9,6 +11,8 @@ public class UIMediatorService : Singleton<UIMediatorService>
 
     GameObject gradeButtonPrefab => GlobalContext.Instance.gradeButtonPrefab;
     Transform gradeButtonParent => GlobalContext.Instance.gradeButtonParent;
+    TMP_Text logStackText => GlobalContext.Instance.stackLogText;
+    GameObject stackLogPanel => GlobalContext.Instance.stackLogPanel;
 
     private void Start()
     {
@@ -38,5 +42,11 @@ public class UIMediatorService : Singleton<UIMediatorService>
         cineCameraManagerService.SetFreeLookCameraTargetOffset(
             zengaBlocksManagerService.zengaParentBlocks[grade].transform.childCount / 3
         );
+    }
+
+    public void OnStackClicked(Stack stack)
+    {
+        logStackText.text = JsonConvert.SerializeObject(stack);
+        stackLogPanel.SetActive(true);
     }
 }
